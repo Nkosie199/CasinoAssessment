@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Player {
 
   @Id
-  @Column(name = "ID")
+  @Column(name = "PLAYER_ID")
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
@@ -20,7 +20,7 @@ public class Player {
   private String username;
 
   @Column(name = "BALANCE")
-  private String balance;
+  private int balance;
 
   public Integer getId() {
     return id;
@@ -34,15 +34,15 @@ public class Player {
     return username;
   }
 
-  public void setName(String username) {
+  public void setUsername(String username) {
     this.username = username;
   }
 
-  public String getBalance() {
+  public int getBalance() {
     return balance;
   }
 
-  public void setBalance(String balance) {
+  public void setBalance(int balance) {
     this.balance = balance;
   }
 }

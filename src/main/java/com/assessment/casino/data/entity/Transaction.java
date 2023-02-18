@@ -12,16 +12,27 @@ import javax.persistence.Table;
 @Table(name = "TRANSACTION")
 public class Transaction {
 
+  public enum TransactionType {
+    WIN,
+    WAGER,
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "ID")
+  @Column(name = "TRANSACTION_ID")
   private int id;
+
+  @Column(name = "TRANSACTION_TYPE")
+  private String type;
+
+  @Column(name = "AMOUNT")
+  private int amount;
 
   @Column(name = "PLAYER_ID")
   private int playerId;
 
   @Column(name = "DATE_TIME")
-  private Time dateTime;
+  private String dateTime;
 
   public int getId() {
     return id;
@@ -29,6 +40,22 @@ public class Transaction {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public String getTransactionType() {
+    return type;
+  }
+
+  public void setTransactionType(String type) {
+    this.type = type;
+  }
+
+  public int getAmount() {
+    return amount;
+  }
+
+  public void setAmount(int amount) {
+    this.amount = amount;
   }
 
   public int getPlayerId() {
@@ -39,11 +66,11 @@ public class Transaction {
     this.playerId = playerId;
   }
 
-  public Time getDate() {
+  public String getDateTime() {
     return dateTime;
   }
 
-  public void setDate(Time dateTime) {
+  public void setDateTime(String dateTime) {
     this.dateTime = dateTime;
   }
 }

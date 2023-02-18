@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Casino: Player Transactions</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/site.css"/>
+</head>
+<body>
+<h1>Transactions Page</h1>
+<table>
+    <tr>
+        <th>Transaction ID</th>
+        <th>Transaction Type</th>
+        <th>Amount</th>
+        <th>Player ID</th>
+        <th>Date & Time</th>
+    </tr>
+    <tr th:each="transaction: ${transactions}">
+        <td th:text="${transaction.id}">Transaction ID</td>
+        <td th:text="${transaction.type}">Transaction Type</td>
+        <td th:text="${transaction.amount}">Amount</td>
+        <td th:text="${transaction.plyerId}">Player ID</td>
+        <td th:text="${transaction.dateTime}">Date & Time</td>
+    </tr>
+</table>
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
