@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository
   extends CrudRepository<Transaction, Long> {
   Iterable<Transaction> findAll();
+  Iterable<Transaction> findByPlayerId(int player);
 }

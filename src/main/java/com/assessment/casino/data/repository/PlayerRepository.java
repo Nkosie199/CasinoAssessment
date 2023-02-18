@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
   Iterable<Player> findAll();
+  Player findById(int id);
 }
