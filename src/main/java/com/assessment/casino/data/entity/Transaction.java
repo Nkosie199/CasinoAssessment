@@ -1,6 +1,5 @@
 package com.assessment.casino.data.entity;
 
-import java.sql.Time;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,7 @@ public class Transaction {
   private int id;
 
   @Column(name = "TRANSACTION_TYPE")
-  private String type;
+  private String transactionType;
 
   @Column(name = "AMOUNT")
   private int amount;
@@ -43,11 +42,11 @@ public class Transaction {
   }
 
   public String getTransactionType() {
-    return type;
+    return transactionType;
   }
 
-  public void setTransactionType(String type) {
-    this.type = type;
+  public void setTransactionType(String transactionType) {
+    this.transactionType = transactionType;
   }
 
   public int getAmount() {

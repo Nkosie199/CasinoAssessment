@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Casino: Player Transactions</title>
+    <title>Casino: Transactions</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/site.css"/>
 </head>
 <body>
-<h1>Transactions Page</h1>
+<h1>Transactions</h1>
 <table>
     <tr>
         <th>Transaction ID</th>
@@ -19,9 +19,9 @@
     </tr>
     <tr th:each="transaction: ${transactions}">
         <td th:text="${transaction.id}">Transaction ID</td>
-        <td th:text="${transaction.type}">Transaction Type</td>
+        <td th:text="${transaction.transactionType}">Transaction Type</td>
         <td th:text="${transaction.amount}">Amount</td>
-        <td th:text="${transaction.plyerId}">Player ID</td>
+        <td th:text="${transaction.playerId}">Player ID</td>
         <td th:text="${transaction.dateTime}">Date & Time</td>
     </tr>
 </table>

@@ -28,7 +28,6 @@ public class PlayerService {
       player.setUsername(p.getUsername());
       player.setBalance(p.getBalance());
       playerMap.put(player.getId(), player);
-      //System.out.println("player name: " + p.getUsername());
     });
     List<Player> players = new ArrayList<>();
     for (Integer playerId : playerMap.keySet()) {

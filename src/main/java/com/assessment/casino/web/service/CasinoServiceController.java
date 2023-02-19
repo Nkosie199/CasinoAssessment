@@ -2,6 +2,7 @@ package com.assessment.casino.web.service;
 
 import com.assessment.casino.data.entity.Player;
 import com.assessment.casino.data.entity.Transaction;
+import com.assessment.casino.web.error.BadRequestException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,37 +30,33 @@ public class CasinoServiceController {
     return this.casinoServices.getTransactions();
   }
 
-  //GET /player/{playerId}/balance
   @RequestMapping(
     method = RequestMethod.GET,
     value = "/player/{playerId}/balance"
   )
-  public int getPlayerBalance(@PathVariable("playerId") int playerId) {
-    //System.out.println("getPlayerBalance | playerId: " + playerId);
+  public int getPlayerBalance(@PathVariable("playerId") int playerId)
+    throws BadRequestException {
     return this.casinoServices.retrievePlayerBalance(playerId);
   }
 
-  //POST /player/{playerid}/balance/update
   @RequestMapping(
     method = RequestMethod.POST,
     value = "/player/{playerId}/balance/update"
   )
   public int setPlayerBalance(
     @PathVariable("playerId") int playerId,
-    int balance
-  ) {
-    System.out.println("getPlayerBalance | balance: " + balance);
-    return this.casinoServices.updatePlayerBalance(playerId, balance);
+    int amount
+  ) throws Exception {
+    return this.casinoServices.updatePlayerBalance(playerId, amount);
   }
 
-  //POST /admin/{playerUsername}/transactions
   @RequestMapping(
     method = RequestMethod.GET,
     value = "/admin/{playerUsername}/transactions"
   )
   public List<Transaction> getPlayersLast10Transactions(
-    @PathVariable("playerUsername") int playerUsername
-  ) {
+    @PathVariable("playerUsername") String playerUsername
+  ) throws BadRequestException {
     return this.casinoServices.getPlayersLatestTransactions(playerUsername);
   }
 }

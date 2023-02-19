@@ -19,7 +19,7 @@ public class TransactionController {
   @RequestMapping(method = RequestMethod.GET)
   public String getTransactions(Model model) {
     List<Transaction> transactionList = this.casinoServices.getTransactions();
-    model.addAttribute("playerTransactions", transactionList);
+    model.addAttribute("transactions", transactionList);
     return "transactions";
   }
 }

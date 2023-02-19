@@ -31,7 +31,6 @@ public class TransactionService {
       transaction.setPlayerId(t.getPlayerId());
       transaction.setDateTime(t.getDateTime());
       transactionMap.put(transaction.getId(), transaction);
-      //System.out.println("transaction id: " + t.getId());
     });
     List<Transaction> transactions = new ArrayList<>();
     for (Integer transactionId : transactionMap.keySet()) {

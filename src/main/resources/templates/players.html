@@ -8,19 +8,17 @@
     <link rel="stylesheet" href="css/site.css"/>
 </head>
 <body>
-<h1>Players Page</h1>
+<h1>Players</h1>
 <table>
     <tr>
         <th>ID</th>
         <th>Username</th>
         <th>Balance</th>
-        <th>Date & Time</th>
     </tr>
     <tr th:each="player: ${players}">
         <td th:text="${player.id}">ID</td>
         <td th:text="${player.username}">Username</td>
         <td th:text="${player.balance}">Balance</td>
-        <td th:text="${player.dateTime}">Date & Time</td>
     </tr>
 </table>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
