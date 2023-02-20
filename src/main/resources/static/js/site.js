@@ -1,46 +1,134 @@
-function setPicker(){
-    $( "#datepicker" ).datepicker(
-        { dateFormat: 'yy-mm-dd',
-            onSelect: function(d,i) {
-                if (d !== i.lastVal) {
-                    reloadPageForDateSelection();
-                }
-            }
-        });
+const postRequestOptions = {
+  method: "POST",
+  redirect: "follow",
 };
 
-function getRequestParam(p){
-    return (window.location.search.match(new RegExp('[?&]' + p + '=([^&]+)')) || [, null])[1];
-};
+async function submitWager() {
+  const playerId = document.getElementById("playerId").innerText;
+  const amount = +document.getElementById("amount").value;
+  const odds = +document.getElementById("odds").value;
+  const balance = +document.getElementById("balance").innerText;
+  console.log("playerId:", playerId);
+  console.log("amount:", amount);
+  console.log("odds:", odds);
+  console.log("balance:", balance);
+  //deduct wager from balance...
+  deductWager(playerId, amount);
+  //add wager entry to transactions table...
+  addWagerEntry(playerId, amount);
+  //determine winnings...
+  const winnings = calculateWinnings(amount, odds);
+  //add winnings to balance...
+  console.log("add " + winnings + " winnings to balance...");
+  addWinnings(playerId, winnings);
+  //add win entry to transactions table...
+  addWinningsEntry(playerId, winnings);
+}
 
-function setInitialDate(){
-    var requestDate = getRequestParam('date');
-    if(requestDate == null){
-        requestDate = new Date();
-    }else{
-        requestDate = formatDate(requestDate);
-    }
-    $('#datepicker').datepicker('setDate', requestDate);
+function addWagerEntry(playerId, amount) {
+  fetch(
+    "http://localhost:8000/casino/player/" +
+      playerId +
+      "/transaction/add?transactionType=WAGER&amount=" +
+      amount +
+      "&playerId=" +
+      playerId +
+      "&dateTime=" +
+      currentDateTime(),
+    postRequestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      /*console.log(result)*/
+    })
+    .catch((error) => console.log("add wager error", error));
+}
 
-};
+function addWinningsEntry(playerId, amount) {
+  fetch(
+    "http://localhost:8000/casino/player/" +
+      playerId +
+      "/transaction/add?transactionType=WIN&amount=" +
+      amount +
+      "&playerId=" +
+      playerId +
+      "&dateTime=" +
+      currentDateTime(),
+    postRequestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      /*console.log(result)*/
+    })
+    .catch((error) => console.log("add winnings error", error));
+}
 
-function reloadPageForDateSelection(){
-    var selectedDate = document.getElementById('datepicker').value;
-    var redirectLink = window.location.protocol + "//" + window.location.host + window.location.pathname + '?date=' + selectedDate;
-    console.log('Redirecting to: ' + redirectLink);
-    window.location.href = redirectLink;
-};
+function deductWager(playerId, amount) {
+  fetch(
+    "http://localhost:8000/casino/player/" +
+      playerId +
+      "/balance/update?amount=-" +
+      amount,
+    postRequestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      console.log("old balance: " + result);
+    })
+    .catch((error) => console.log("deduct wager error", error));
+}
 
-function formatDate(input) {
-    var dateFormat = 'yyyy-mm-dd';
-    var parts = input.match(/(\d+)/g),
-        i = 0, fmt = {};
-    dateFormat.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+function addWinnings(playerId, amount) {
+  fetch(
+    "http://localhost:8000/casino/player/" +
+      playerId +
+      "/balance/update?amount=" +
+      amount,
+    postRequestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => console.log("new balance: " + result))
+    .catch((error) => console.log("add wager error", error));
+}
 
-    return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
-};
+function calculateWinnings(amount, odds) {
+  const randomInt = randomIntFromInterval(1, 100);
+  if (randomInt > odds) {
+    console.log("WIN");
+    return amount + parseFloat(Math.round(amount * (odds / 100)));
+  } else {
+    console.log("LOSS");
+    return 0;
+  }
+}
 
-$(document).ready(function(){
-    setPicker();
-    setInitialDate();
+function randomIntFromInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function setRandomOdds() {
+  const rndInt = randomIntFromInterval(1, 100);
+  const odds = document.getElementById("odds");
+  if (odds) odds.value = rndInt;
+}
+
+function currentDateTime() {
+  let date = new Date();
+  let dateStr =
+    date.getFullYear() +
+    "-" +
+    ("00" + (date.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("00" + date.getDate()).slice(-2) +
+    " " +
+    ("00" + date.getHours()).slice(-2) +
+    ":" +
+    ("00" + date.getMinutes()).slice(-2) +
+    ":" +
+    ("00" + date.getSeconds()).slice(-2);
+  return dateStr;
+}
+
+$(document).ready(function () {
+  setRandomOdds();
 });

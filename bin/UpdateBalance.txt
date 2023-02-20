@@ -1,0 +1,1 @@
+curl --location --request POST 'http://localhost:8000/casino/player/0/balance/update?amount=10'

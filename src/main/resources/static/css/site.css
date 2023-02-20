@@ -1,8 +1,16 @@
-body{
-    padding-top: 70px;
-    padding-bottom: 60px;
+body {
+  padding: 10px;
 }
 
-footer{
-    height: 50px;
+.sub-heading {
+  display: flex;
+  justify-content: space-around;
+}
+
+#image-home {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
 }

@@ -1,0 +1,1 @@
+curl --location --request POST 'http://localhost:8000/casino/player/0/transaction/add?transactionType=WAGER&amount=500&playerId=0&dateTime=2023-02-20%2010:17:00'

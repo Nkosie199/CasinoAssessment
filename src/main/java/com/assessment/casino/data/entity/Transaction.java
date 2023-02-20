@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "TRANSACTION")
@@ -17,7 +18,7 @@ public class Transaction {
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "TRANSACTION_ID")
   private int id;
 
@@ -30,6 +31,8 @@ public class Transaction {
   @Column(name = "PLAYER_ID")
   private int playerId;
 
+  @DateTimeFormat
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "DATE_TIME")
   private String dateTime;
 

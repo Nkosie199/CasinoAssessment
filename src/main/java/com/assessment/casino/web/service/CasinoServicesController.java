@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/casino")
-public class CasinoServiceController {
+public class CasinoServicesController {
 
   @Autowired
   private CasinoServices casinoServices;
@@ -58,5 +58,16 @@ public class CasinoServiceController {
     @PathVariable("playerUsername") String playerUsername
   ) throws BadRequestException {
     return this.casinoServices.getPlayersLatestTransactions(playerUsername);
+  }
+
+  @RequestMapping(
+    method = RequestMethod.POST,
+    value = "/player/{playId}/transaction/add"
+  )
+  public Transaction addPlayerTransaction(
+    @PathVariable("playId") int playerId,
+    Transaction transaction
+  ) throws Exception {
+    return this.casinoServices.addTransaction(playerId, transaction);
   }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(value = "/transactions")
-public class TransactionController {
+public class TransactionsController {
 
   @Autowired
   private CasinoServices casinoServices;

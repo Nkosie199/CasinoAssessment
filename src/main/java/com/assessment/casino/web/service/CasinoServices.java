@@ -2,8 +2,8 @@ package com.assessment.casino.web.service;
 
 import com.assessment.casino.data.entity.Player;
 import com.assessment.casino.data.entity.Transaction;
-import com.assessment.casino.data.repository.PlayerRepository;
-import com.assessment.casino.data.repository.TransactionRepository;
+import com.assessment.casino.data.repository.PlayersRepository;
+import com.assessment.casino.data.repository.TransactionsRepository;
 import com.assessment.casino.web.error.BadRequestException;
 import com.assessment.casino.web.error.TeapotException;
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CasinoServices {
 
-  private PlayerRepository playerRepository;
-  private TransactionRepository transactionRepository;
+  private PlayersRepository playerRepository;
+  private TransactionsRepository transactionRepository;
 
   @Autowired
   public CasinoServices(
-    PlayerRepository playerRepository,
-    TransactionRepository transactionRepository
+    PlayersRepository playerRepository,
+    TransactionsRepository transactionRepository
   ) {
     this.playerRepository = playerRepository;
     this.transactionRepository = transactionRepository;
@@ -45,8 +45,17 @@ public class CasinoServices {
     return players;
   }
 
-  public int retrievePlayerBalance(int playerId) throws BadRequestException {
+  public Player retrievePlayer(int playerId) throws BadRequestException {
     Player playerFromRepo = this.playerRepository.findById(playerId);
+    if (playerFromRepo != null) {
+      return playerFromRepo;
+    } else {
+      throw new BadRequestException("User not found");
+    }
+  }
+
+  public int retrievePlayerBalance(int playerId) throws BadRequestException {
+    Player playerFromRepo = retrievePlayer(playerId);
     if (playerFromRepo != null) {
       return playerFromRepo.getBalance();
     } else {
@@ -56,18 +65,26 @@ public class CasinoServices {
 
   public int updatePlayerBalance(int playerId, int amount)
     throws BadRequestException, TeapotException {
-    Player playerFromRepo = this.playerRepository.findById(playerId);
+    Player playerFromRepo = retrievePlayer(playerId);
     if (playerFromRepo != null) {
       int balance = retrievePlayerBalance(playerFromRepo.getId());
-      if (amount < 0) {
-        throw new BadRequestException("Negative amount");
-      } else if (balance - amount < 0) {
+      if (balance + amount < 0) {
         throw new TeapotException("Insufficient funds");
       } else {
-        playerFromRepo.setBalance(balance - amount);
+        playerFromRepo.setBalance(balance + amount);
         Player updatedPlayer = this.playerRepository.save(playerFromRepo);
         return updatedPlayer.getBalance();
       }
+    } else {
+      throw new BadRequestException("User not found");
+    }
+  }
+
+  public Transaction addTransaction(int playerId, Transaction transaction)
+    throws BadRequestException {
+    Player playerFromRepo = retrievePlayer(playerId);
+    if (playerFromRepo != null) {
+      return this.transactionRepository.save(transaction);
     } else {
       throw new BadRequestException("User not found");
     }
@@ -93,7 +110,7 @@ public class CasinoServices {
     return transactions;
   }
 
-  public List<Transaction> getPlayersLatestTransactions(String playerUsername)
+  public List<Transaction> getPlayersTransactions(String playerUsername)
     throws BadRequestException {
     List<Player> playersFromRepo =
       this.playerRepository.findByUsername(playerUsername);
@@ -105,7 +122,6 @@ public class CasinoServices {
       );
     } else {
       Player playerFromRepo = playersFromRepo.get(0);
-      //if (playerFromRepo != null) {
       Iterable<Transaction> transactionsFromRepo =
         this.transactionRepository.findByPlayerId(playerFromRepo.getId());
       Map<Integer, Transaction> transactionMap = new HashMap<>();
@@ -120,14 +136,21 @@ public class CasinoServices {
       });
       List<Transaction> transactions = new ArrayList<>();
       for (Integer transactionId : transactionMap.keySet()) {
-        if (transactions.size() < 10) {
-          transactions.add(transactionMap.get(transactionId));
-        }
+        transactions.add(transactionMap.get(transactionId));
       }
       return transactions;
-      /*} else {
-        throw new BadRequestException("User not found");
-      }*/
     }
+  }
+
+  public List<Transaction> getPlayersLatestTransactions(String playerUsername)
+    throws BadRequestException {
+    List<Transaction> allTransactions = getPlayersTransactions(playerUsername);
+    List<Transaction> transactions = new ArrayList<>();
+    for (Transaction t : allTransactions) {
+      if (transactions.size() < 10) {
+        transactions.add(t);
+      }
+    }
+    return transactions;
   }
 }

@@ -1,0 +1,1 @@
+curl --location --request GET 'http://localhost:8000/casino/player/30/balance'
