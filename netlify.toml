@@ -1,7 +1,6 @@
 [build]
   command = "apt-get update && apt-get install -y maven && mvn clean install spring-boot:run"
   publish = "target"
-  command = "mvn clean install spring-boot:run"
 
 [context.production.environment]
   JAVA_VERSION = "11"
