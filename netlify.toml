@@ -1,5 +1,5 @@
 [build]
-  command = "apt-get update && apt-get install -y maven && mvn clean install spring-boot:run"
+  command = "apt-get update && apt-get install -y maven && mvn spring-boot:run"
   publish = "target"
 
 [context.production.environment]
