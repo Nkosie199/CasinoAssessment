@@ -1,0 +1,16 @@
+body {
+  padding: 10px;
+}
+
+.sub-heading {
+  display: flex;
+  justify-content: space-around;
+}
+
+#image-home {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}

@@ -34,9 +34,12 @@ Nkosi Gumede (nkosigumede@yahoo.com)
 
 To deploy:
 heroku run bash --app casino6
-curl -O https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
-file apache-maven-3.8.5-bin.tar.gz
-tar -xzvf apache-maven-3.8.5-bin.tar.gz
-export PATH=$PATH:/app/apache-maven-3.8.5/bin
-mvn clean install
-mvn spring-boot:run
+>> curl -O https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+>> file apache-maven-3.8.5-bin.tar.gz
+>> tar -xzvf apache-maven-3.8.5-bin.tar.gz
+>> export PATH=$PATH:/app/apache-maven-3.8.5/bin
+>> mvn clean install
+>> mvn spring-boot:run
+
+To check logs:
+heroku logs --app=casino6 --tail
