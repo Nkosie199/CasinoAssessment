@@ -3,6 +3,8 @@ const postRequestOptions = {
   redirect: "follow",
 };
 
+const herokuUrl = "https://casino6-884b3c46521f.herokuapp.com";
+
 async function submitWager() {
   const playerId = document.getElementById("playerId").innerText;
   const amount = +document.getElementById("amount").value;
@@ -27,7 +29,7 @@ async function submitWager() {
 
 function addWagerEntry(playerId, amount) {
   fetch(
-    "http://localhost:8000/casino/player/" +
+    herokuUrl + "/casino/player/" +
       playerId +
       "/transaction/add?transactionType=WAGER&amount=" +
       amount +
@@ -46,7 +48,7 @@ function addWagerEntry(playerId, amount) {
 
 function addWinningsEntry(playerId, amount) {
   fetch(
-    "http://localhost:8000/casino/player/" +
+    herokuUrl + "/casino/player/" +
       playerId +
       "/transaction/add?transactionType=WIN&amount=" +
       amount +
@@ -65,7 +67,7 @@ function addWinningsEntry(playerId, amount) {
 
 function deductWager(playerId, amount) {
   fetch(
-    "http://localhost:8000/casino/player/" +
+    herokuUrl + "/casino/player/" +
       playerId +
       "/balance/update?amount=-" +
       amount,
@@ -80,7 +82,7 @@ function deductWager(playerId, amount) {
 
 function addWinnings(playerId, amount) {
   fetch(
-    "http://localhost:8000/casino/player/" +
+    herokuUrl + "/casino/player/" +
       playerId +
       "/balance/update?amount=" +
       amount,
